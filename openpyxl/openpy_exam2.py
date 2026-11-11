@@ -11,4 +11,4 @@ new_ws = w2.create_sheet()
 new_ws.title = '마지막_시트'
 
 # 변경사항 저장
-w2.save('test.xlsx')
+w2.save('openpyxl/test.xlsx')
