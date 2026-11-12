@@ -73,3 +73,88 @@ max    58.000000 : 최댓값
 print('DataFrame의 전체 요약 정보')
 # info : DataFrame의 '구조 정보'를 보여줌
 print(df.info())
+
+
+print('\n=== DataFrame에서 특정 행을 선택하는 방법 2가지 ===')
+# iloc : '위치(Position)'로 선택(0번째, 1번째 처럼 순서/번호 접근)
+# loc : '라벨(Label)'로 선택(index에 붙어있는 이름으로 접근)
+'''
+* iloc
+iloc은 index의 '값'이 뭐든 상관 없이, '몇 번째 줄이냐'로 가져옴
+ex) df.iloc[0] => 첫 번째 행(0번 위치)
+'''
+print(df.iloc[0])
+print(df.iloc[1])
+print(df.iloc[2])
+
+'''
+* loc
+loc은 'index 라벨'로 접근
+index를 '이름'으로 바꾸면(ex : Name열을 index로 지정)
+df.index = ['사람1', '사람2', '사람3']
+df.loc['사람1']로 접근
+'''
+print(df.loc[0])
+print(df.iloc[0])
+
+
+print('\n=== 상위/하위 데이터 출력 ===')
+# head() : 위쪽(처음 부분) 몇 개의 행만 보여주는 함수
+# tail() : 아래쪽(마지막 부분) 몇 개의 행만 보여주는 함수
+
+# 상위 5개
+print(df.head())
+# 상위 2개
+print(df.head(2))
+
+# 하위 5개
+print(df.tail())
+# 하위 2개
+print(df.tail(2))
+
+
+print('\n=== 열 수정 ===')
+# 새로운 열 추가
+df['Survived'] = [0, 1, 1]
+print(df)
+
+# 열 이름 바꾸기
+df = df.rename(columns={'Sex' : 'Gender'})
+print(df)
+
+# 열 삭제하기(axis=1 : 열 / axis=0 : 행)
+df = df.drop('Survived', axis=1)
+print(df)
+
+
+print('\n=== 결측치(NaN) 처리 ===')
+# 결측치란 값이 비어있는 상태
+# pandas에서는 보통 NaN(Not of Number)으로 표시
+# None을 넣어도 pandas에서는 자동으로 NaN으로 변환
+
+print(df)
+print(df.isnull())
+
+df2 = df.copy()
+# copy() : 원본 df를 복제
+
+df2.loc[1, 'Age'] = None
+print(df2.isnull())
+# loc[행 라벨, 열이름]형태로 특정 위치의 값을 바꿀 수 있음
+
+print(df2.dropna(axis=0))
+# dropna() : 결측치가 있는 부분 제거
+
+print(df2.fillna(0))
+# fillna(i) : 결측치를 i값으로 채우기
+
+print(df2['Age'].fillna(df['Age'].mean))
+# 결측치를 평균 값으로 채우기
+
+# print(df2.fillna(method='ffill')) // 이전 버전
+print(df2.ffill())
+# ffill : foward / 바로 위(이전 행)의 값으로 NaN 채움
+
+# print(df2.fillna(method='bfill')) // 이전 버전
+print(df2.bfill())
+# bfill : backward / 바로 아래(다음 행)의 값으로 NaN 채움
